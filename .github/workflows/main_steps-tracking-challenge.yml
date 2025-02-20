@@ -27,7 +27,7 @@ jobs:
         run: dotnet build steps-tracking/StepsTracking.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish steps-tracking/StepsTracking.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish steps-tracking/StepsTracking.csproj -c Debug -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -64,5 +64,5 @@ jobs:
         with:
           app-name: 'steps-tracking-challenge'
           slot-name: 'Production'
-          package: .
+          package: "${{env.DOTNET_ROOT}}/myapp"
           
