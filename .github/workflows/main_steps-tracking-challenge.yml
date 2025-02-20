@@ -9,6 +9,10 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: steps-tracking-challenge
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+
 jobs:
   build:
     runs-on: windows-latest
@@ -27,13 +31,13 @@ jobs:
         run: dotnet build steps-tracking/StepsTracking.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish steps-tracking/StepsTracking.csproj -c Debug -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish steps-tracking/StepsTracking.csproj -c Debug --no-build  -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
   deploy:
     runs-on: windows-latest
@@ -62,7 +66,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'steps-tracking-challenge'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          package: "${{env.DOTNET_ROOT}}/myapp"
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
           
