@@ -1,0 +1,1 @@
+public record UserLoginRequestDTO(string Username, string Password);
