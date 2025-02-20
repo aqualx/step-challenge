@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>74b04ba2-8515-41fd-a305-39583e8bb807</UserSecretsId>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
-    <RuntimeIdentifiers>linux-musl-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
